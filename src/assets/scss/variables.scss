@@ -1,0 +1,22 @@
+@function rem($value) {
+  $remValue: calc($value / 16) + rem;
+
+  @return $remValue;
+}
+
+$font-size: rem(16);
+
+:root {
+  --text-color: #394155;
+  --main-background: #fff;
+  --font-family: Formular, sans-serif;
+  --gray-light: #96999d;
+  --gray-dark: #2b2d34;
+  --background-light-12: rgb(25 27 34 / 12%);
+  --background-light-32: rgb(25 27 34 / 32%);
+}
+
+$pc: 1920px;
+$laptop: 1366px;
+$tablet: 1200px;
+$phablet: 576px;

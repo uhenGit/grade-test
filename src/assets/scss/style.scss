@@ -1,0 +1,63 @@
+@use "variables" as *;
+@use "fonts";
+
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  color: var(--text-color);
+  background: var(--main-background);
+  font-family: var(--font-family);
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-between {
+  justify-content: space-between;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.gradient-border {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    -webkit-mask: linear-gradient(90deg, #AACEDB, #BEE2E0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    border-radius: rem(8);
+    padding: rem(2);
+    background:  linear-gradient(90deg, #AACEDB 0%, #BEE2E0 100%);
+    inset: -1px;
+    z-index: -1;
+  }
+}

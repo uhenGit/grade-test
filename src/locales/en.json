@@ -1,0 +1,18 @@
+{
+  "languages": {
+    "ua": "Ukrainian",
+    "en": "English"
+  },
+  "shortLanguages": {
+    "ua": "ua",
+    "en": "en"
+  },
+  "feedbackText": "Our clients feedbacks",
+  "feedbackLabel": "feedbacks",
+  "feedbackView": "View",
+  "feedbackWrite": "Write",
+  "navHome": "Home",
+  "navRating": "Rating",
+  "ratingHeader": "Here you can rate any item",
+  "alertText": "You can change selected language in the top right corner"
+}
