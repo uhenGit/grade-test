@@ -23,21 +23,31 @@ const props = defineProps({
   }
 });
 const hoveredIdx = ref(0);
+const hoveredWidth = ref(0);
 const currentRate = computed(() => props.rating || rateStore.customRate);
-const handleHover = (idx: number): void => {
+const handleHover = (evt: MouseEvent,idx: number): void => {
   if (props.disabled) return;
 
   hoveredIdx.value = idx;
+  const starEl = evt.currentTarget as HTMLElement;
+  const starRect = starEl.getBoundingClientRect();
+  const cursorX = evt.clientX - starRect.left;
+  hoveredWidth.value = cursorX / starRect.width * 100;
 }
-const resetHover = (): void => {
+const resetHover = (idx: number): void => {
   if (props.disabled) return;
 
-  hoveredIdx.value = 0;
+  if (hoveredIdx.value === idx) {
+    hoveredIdx.value = 0;
+    hoveredWidth.value = 0;
+  }
 }
 const getFilledWidth = (idx: number): string => {
   if (props.disabled || currentRate.value > idx - 1) return `${(currentRate.value - (idx - 1)) * 100}%`;
 
-  if (hoveredIdx.value >= idx || currentRate.value >= idx) return '100%';
+  if (hoveredIdx.value === idx) return `${hoveredWidth.value}%`;
+
+  if (currentRate.value >= idx) return '100%';
 
   return '0%';
 }
@@ -65,7 +75,7 @@ const onSaveRating = () => {
         class="star"
         :class="{ 'filled': hoveredIdx >= idx }"
         :style="{ width: props.width, height: props.height }"
-        @mouseover="handleHover(idx)"
+        @mouseover="handleHover($event, idx)"
     >
       <span
         class="star-filled"
