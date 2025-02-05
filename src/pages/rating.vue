@@ -16,11 +16,28 @@ const setCustomRate = (val) => {
     <section class="flex">
       <star-rating @set-custom-rate="setCustomRate" />
     </section>
+    <button
+        class="reset-btn"
+        @click="rateStore.resetCustomRate()"
+    >Reset</button>
   </main>
 </template>
 <style scoped lang="scss">
 .rating {
   margin-top: rem(16);
   gap: rem(24);
+}
+
+.reset-btn {
+  padding: rem(10) rem(24);
+  outline: none;
+  border: none;
+  cursor: pointer;
+  background: var(--gray-dark);
+  color: var(--main-background);
+  border-radius: rem(4);
+  font-size: rem(24);
+  font-weight: 500;
+  line-height: 150%;
 }
 </style>

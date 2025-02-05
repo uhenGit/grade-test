@@ -24,7 +24,8 @@ const props = defineProps({
 });
 const hoveredIdx = ref(0);
 const hoveredWidth = ref(0);
-const currentRate = computed(() => props.rating || rateStore.customRate);
+// @todo - investigate the magic of 1.5 in the next row
+const currentRate = computed(() => props.rating || rateStore.customRate || (hoveredIdx.value - 1.5 + hoveredWidth.value / widthRate()));
 const handleHover = (evt: MouseEvent,idx: number): void => {
   if (props.disabled) return;
 
@@ -34,13 +35,13 @@ const handleHover = (evt: MouseEvent,idx: number): void => {
   const cursorX = evt.clientX - starRect.left;
   hoveredWidth.value = cursorX / starRect.width * 100;
 }
-const resetHover = (idx: number): void => {
+
+const widthRate = (): number => parseFloat(props.width);
+const resetHover = (): void => {
   if (props.disabled) return;
 
-  if (hoveredIdx.value === idx) {
-    hoveredIdx.value = 0;
-    hoveredWidth.value = 0;
-  }
+  hoveredIdx.value = 0;
+  hoveredWidth.value = 0;
 }
 const getFilledWidth = (idx: number): string => {
   if (props.disabled || currentRate.value > idx - 1) return `${(currentRate.value - (idx - 1)) * 100}%`;
@@ -56,10 +57,15 @@ const getFilledColor = (idx: number): string => {
 
   return 'transparent';
 }
-const onSaveRating = () => {
+const onSaveRating = (): void => {
   if (props.disabled) return;
 
-  emit('set-custom-rate', hoveredIdx.value);
+  const computedRate: number = hoveredIdx.value - 1.5 + hoveredWidth.value / widthRate()
+  const selectedRate: number = computedRate <= 0
+    ? 0
+    : computedRate;
+
+  emit('set-custom-rate', selectedRate);
 }
 </script>
 <template>
@@ -73,15 +79,14 @@ const onSaveRating = () => {
         v-for="idx in 5"
         :key="idx"
         class="star"
-        :class="{ 'filled': hoveredIdx >= idx }"
         :style="{ width: props.width, height: props.height }"
-        @mouseover="handleHover($event, idx)"
+        @mousemove="handleHover($event, idx)"
     >
       <span
         class="star-filled"
         :style="{
           width: getFilledWidth(idx),
-          backgroundColor: hoveredIdx >= idx ? '#ffd700ff' : getFilledColor(idx),
+          backgroundColor: currentRate >= idx ? '#ffd700ff' : getFilledColor(idx),
         }"
       ></span>
     </span>

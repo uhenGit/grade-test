@@ -7,6 +7,10 @@ export const useRateStore = defineStore('rateStore', {
   actions: {
     setCustomRate(val: number): void {
       this.customRate = val;
+    },
+
+    resetCustomRate(): void {
+      this.customRate = 0;
     }
   }
 })
